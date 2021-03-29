@@ -1,0 +1,15 @@
+{
+  "templates": [
+    {
+      "name": "gitlab-two-stages-pipeline",
+        "provider": "Gitlab",
+        "location": "templates/cookiecutter-gitlab-two-stages-pipeline",
+        "plugins": {
+          "predefined": [
+            {"name": "TWO_STAGE_PIPELINE_PLUGIN", "args":{"provider": "Gitlab"} }
+          ]
+        
+      }
+    }
+  ]
+}
