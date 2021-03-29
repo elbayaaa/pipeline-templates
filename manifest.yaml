@@ -1,5 +1,6 @@
 {
-  "templates": [
+"providers": ["Gitlab"],  
+"templates": [
     {
       "name": "gitlab-two-stages-pipeline",
         "provider": "Gitlab",
