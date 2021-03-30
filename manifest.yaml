@@ -6,9 +6,11 @@ templates:
     location: templates/cookiecutter-gitlab-two-stages-pipeline
     interactive_flows:
       - path: lib/two_stages_pipeline/questions.json
-        context:
-          provider: Gitlab
-          aws_profiles: "lambda: boto3.session.Session().available_profiles"
+        context_method:
+          module_name: lib.two_stages_pipeline.questions_context_supplier
+          method_name: get_context
+          args:
+            provider: Gitlab
     preprocessors:
       - module_name: lib.two_stages_pipeline.preprocessor
         class_name: Preprocessor
