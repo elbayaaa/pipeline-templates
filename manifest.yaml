@@ -8,10 +8,6 @@ templates:
       - path: lib/two_stages_pipeline/questions.json
         context:
           provider: Gitlab
-          aws_profiles:
-            - default
-            - staging
-            - production
     preprocessors:
       - module_name: lib.two_stages_pipeline.preprocessor
         class_name: Preprocessor

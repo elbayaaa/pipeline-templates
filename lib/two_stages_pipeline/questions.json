@@ -19,7 +19,7 @@
           "key": "testing_profile",
           "question": "Which AWS profile will you deploy the 'Testing' stage to?",
           "isRequired": true,
-          "options": %(aws_profiles)s
+          "options": %(boto3.session.Session().available_profiles)s
       },
       {
           "key": "deployer_provided",
@@ -85,7 +85,7 @@
       {
           "key": "prod_profile",
           "question": "Which AWS profile will you deploy the 'Prod' stage to?",
-          "options": %(aws_profiles)s,
+          "options": %(boto3.session.Session().available_profiles)s,
           "isRequired": true
       },
       {
