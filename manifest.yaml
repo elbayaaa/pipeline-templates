@@ -7,9 +7,11 @@ templates:
     interactive_flows:
       - questions.json
     preprocessors:
-      - preprocessor.py
+      - module_name: preprocessor
+        class_name: Preprocessor
     postprocessors:
-      - postprocessor.py
+      - module_name: postprocessor
+        class_name: Postprocessor
     plugins:
       predefined:
         - name: TWO_STAGE_PIPELINE_PLUGIN
