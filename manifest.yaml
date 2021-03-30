@@ -8,7 +8,7 @@ templates:
       - path: lib/two_stages_pipeline/questions.json
         context:
           provider: Gitlab
-          aws_profiles: eval("boto3.session.Session().available_profiles")
+          aws_profiles: lambda: "boto3.session.Session().available_profiles"
     preprocessors:
       - module_name: lib.two_stages_pipeline.preprocessor
         class_name: Preprocessor
