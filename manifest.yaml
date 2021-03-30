@@ -5,7 +5,7 @@ templates:
     provider: Gitlab
     location: templates/cookiecutter-gitlab-two-stages-pipeline
     interactive_flows:
-      - path: lib/two_stages_pipeline/questions.json
+      - path: lib/twostagespipeline/questions.json
         context:
           provider: Gitlab
           aws_profiles:
@@ -13,10 +13,10 @@ templates:
             - staging
             - production
     preprocessors:
-      - module_name: lib.two_stages_pipeline.preprocessor
+      - module_name: lib.twostagespipeline.preprocessor
         class_name: Preprocessor
     postprocessors:
-      - module_name: lib.two_stages_pipeline.postprocessor
+      - module_name: lib.twostagespipeline.postprocessor
         class_name: Postprocessor
 #    plugins:
 #      predefined:
