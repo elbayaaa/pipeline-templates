@@ -1,0 +1,9 @@
+{
+  "questions": [
+      {
+          "key": "custom sam_template",
+          "question": "DO you Have Custom SAM template",
+          "default": "custom-template.yaml"
+      }
+  ]
+}

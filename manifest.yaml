@@ -4,6 +4,12 @@ templates:
   - name: gitlab-two-stages-pipeline
     provider: Gitlab
     location: templates/cookiecutter-gitlab-two-stages-pipeline
+    interactive_flows:
+      - questions.json
+    preprocessors:
+      - preprocessor.py
+    postprocessors:
+      - postprocessor.py
     plugins:
       predefined:
         - name: TWO_STAGE_PIPELINE_PLUGIN
