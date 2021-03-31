@@ -3,6 +3,7 @@
   "sam_template": "template.yml",
   "build_image": "",
   "main_git_branch": "",
+  "deployer_arn": "",
   "deployer_aws_access_key_id_variable_name": "False",
   "deployer_aws_secret_access_key_variable_name": "False",
   "testing_deployer_role": "",
