@@ -1,22 +1,15 @@
 variables:
   sam_template: {{cookiecutter.sam_template}}
-  build_image: {{cookiecutter.build_image}}
   aws_access_key_id_: ${{cookiecutter.deployer_aws_access_key_id_variable_name}}
   aws_secret_access_key_: ${{cookiecutter.deployer_aws_secret_access_key_variable_name}}
-
-  testing_deployer_role: {{cookiecutter.testing_deployer_role}}
-  testing_cfn_deployment_role: {{cookiecutter.testing_cfn_deployment_role}}
-  testing_region: {{cookiecutter.testing_region}}
-  testing_artifacts_bucket: {{cookiecutter.testing_artifacts_bucket}}
   testing_stack_name: {{cookiecutter.testing_stack_name}}
-
-  prod_deployer_role: {{cookiecutter.prod_deployer_role}}
-  prod_cfn_role: {{cookiecutter.prod_cfn_deployment_role}}
-  prod_region: {{cookiecutter.prod_region}}
-  prod_artifacts_bucket: {{cookiecutter.prod_artifacts_bucket}}
   prod_stack_name: {{cookiecutter.prod_stack_name}}
 
-image: {{cookiecutter.build_image}}
+image: public.ecr.aws/sam/build-python3.8
+
+before_script:
+  - . {{cookiecutter.cicd_folder_name}}/init-env-vars.sh
+
 stages:
   - test
   - build

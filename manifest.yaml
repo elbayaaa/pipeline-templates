@@ -6,17 +6,19 @@ templates:
     location: templates/cookiecutter-gitlab-two-stages-pipeline
     interactive_flows:
       - path: lib/two_stages_pipeline/questions.json
-        context_callback:
-          module_name: lib.two_stages_pipeline.questions_context_supplier
-          method_name: get_context
-          args:
-            provider: Gitlab
-    preprocessors:
-      - module_name: lib.two_stages_pipeline.preprocessor
-        class_name: Preprocessor
-    postprocessors:
-      - module_name: lib.two_stages_pipeline.postprocessor
-        class_name: Postprocessor
+        context:
+          provider: Gitlab
+#        context_callback:
+#          module_name: lib.two_stages_pipeline.questions_context_supplier
+#          method_name: get_context
+#          args:
+#            provider: Gitlab
+#    preprocessors:
+#      - module_name: lib.two_stages_pipeline.preprocessor
+#        class_name: Preprocessor
+#    postprocessors:
+#      - module_name: lib.two_stages_pipeline.postprocessor
+#        class_name: Postprocessor
 #    plugins:
 #      predefined:
 #        - name: TWO_STAGE_PIPELINE_PLUGIN
