@@ -110,4 +110,4 @@ deploy-prod:
                --s3-bucket ${prod_artifacts_bucket} \
                --no-fail-on-empty-changeset \
                --no-confirm-changeset \
-               --role-arn ${prod_cfn_role}
+               --role-arn ${prod_cfn_deployment_role}
