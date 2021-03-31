@@ -6,7 +6,7 @@ templates:
     location: templates/cookiecutter-gitlab-two-stages-pipeline
     interactive_flows:
       - path: lib/two_stages_pipeline/questions.json
-        context_method:
+        context_callback:
           module_name: lib.two_stages_pipeline.questions_context_supplier
           method_name: get_context
           args:
