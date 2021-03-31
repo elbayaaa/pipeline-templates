@@ -1,0 +1,32 @@
+stages:
+  testing:
+    - template: deployer.yaml
+      region: $testing_region
+      stack_name: aws-sam-cli-managed-{{cookiecutter.testing_stack_name}}-pipeline-deployer
+      output_env_var_mapping:
+        Deployer: deployer_arn
+    - template: stage_resources.yaml
+      region: $testing_region
+      stack_name: aws-sam-cli-managed-{{cookiecutter.testing_stack_name}}-pipeline-resources
+      parameter_overrides:
+        DeployerArn: $deployer_arn
+        DeployerRoleArn: $testing_deployer_role
+        CFNDeploymentRoleArn: $testing_cfn_deployment_role
+        ArtifactsBucketArn: $testing_artifacts_bucket
+      output_env_var_mapping:
+        DeployerRole: $testing_deployer_role
+        CFNDeploymentRole: $testing_cfn_deployment_role
+        ArtifactsBucket: $testing_artifacts_bucket
+  prod:
+    - template: stage_resources.yaml
+      region: $prod_region
+      stack_name: aws-sam-cli-managed-{{cookiecutter.prod_stack_name}}-pipeline-resources
+      parameter_overrides:
+        DeployerArn: $deployer_arn
+        DeployerRoleArn: $prod_deployer_role
+        CFNDeploymentRoleArn: $prod_cfn_deployment_role
+        ArtifactsBucketArn: $prod_artifacts_bucket
+      output_env_var_mapping:
+        DeployerRole: $prod_deployer_role
+        CFNDeploymentRole: $prod_cfn_deployment_role
+        ArtifactsBucket: $prod_artifacts_bucket
