@@ -6,8 +6,8 @@ env:
   aws_access_key_id_: ${{ secrets.{{cookiecutter.deployer_aws_access_key_id_variable_name}} }}
   aws_secret_access_key_: ${{ secrets.{{cookiecutter.deployer_aws_secret_access_key_variable_name}} }}
   sam_template: {{cookiecutter.sam_template}}
-  testing_stack_name: test-stack
-  prod_stack_name: prod-stack
+  testing_stack_name: {{cookiecutter.testing_stack_name}}
+  prod_stack_name: {{cookiecutter.prod_stack_name}}
 
 jobs:
   test:
@@ -30,14 +30,15 @@ jobs:
       - name: Load init-env-vars.sh
         run: . {{cookiecutter.cicd_folder_name}}/init-env-vars.sh
       - run: |
-          . {{cookiecutter.cicd_folder_name}}/assume-role.sh ${testing_region} 
-                                                             ${testing_deployer_role} 
+          . {{cookiecutter.cicd_folder_name}}/assume-role.sh ${testing_region} \
+                                                             ${testing_deployer_role} \
                                                              feature-deployment
           sam build --template ${sam_template} --use-container
-          sam deploy --stack-name features-${CI_COMMIT_REF_NAME}-cfn-stack \
+          sam deploy --stack-name features-${GITHUB_REF##*/}-cfn-stack \
             --capabilities CAPABILITY_IAM \
             --region ${testing_region} \
             --s3-bucket ${testing_artifacts_bucket} \
+            --image-repository ${testing_ecr_repo} \
             --no-fail-on-empty-changeset \
             --role-arn ${testing_cfn_deployment_role}
   
@@ -55,9 +56,10 @@ jobs:
         run: |
           . {{cookiecutter.cicd_folder_name}}/assume-role.sh ${testing_region} 
                                                              ${testing_deployer_role} 
-                                                             testing-stage-packaging
+                                                             prod-stage-packaging
           sam package \
             --s3-bucket ${testing_artifacts_bucket} \
+            --image-repository ${testing_ecr_repo} \
             --region ${testing_region} \
             --output-template-file packaged-testing.yaml
       - name: Upload artifacts to production artifact buckets
@@ -68,6 +70,7 @@ jobs:
           sam package \
             --s3-bucket ${prod_artifacts_bucket} \
             --region ${prod_region} \
+            --image-repository ${prod_ecr_repo} \
             --output-template-file packaged-prod.yaml
 
       - uses: actions/upload-artifact@v2
@@ -102,6 +105,7 @@ jobs:
             --capabilities CAPABILITY_IAM \
             --region ${testing_region} \
             --s3-bucket ${testing_artifacts_bucket} \
+            --image-repository ${testing_ecr_repo} \
             --no-fail-on-empty-changeset \
             --role-arn ${testing_cfn_deployment_role}
   
@@ -137,5 +141,6 @@ jobs:
             --capabilities CAPABILITY_IAM \
             --region ${prod_region} \
             --s3-bucket ${prod_artifacts_bucket} \
+            --image-repository ${prod_ecr_repo} \
             --no-fail-on-empty-changeset \
             --role-arn ${prod_cfn_deployment_role}
