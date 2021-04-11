@@ -57,6 +57,17 @@ Resources:
               AWS: !Ref DeployerArn
             Action:
               - 'sts:AssumeRole'
+          - Fn::If:
+              - PipelineIPRangeProvided
+              - Effect: Deny
+                Principal:
+                  AWS: !Ref DeployerArn
+                Action:
+                  - 'sts:AssumeRole'
+                Condition:
+                  NotIpAddress:
+                    aws:SourceIp: !Ref PipelineIPRange
+              - Ref: AWS::NoValue
       Policies:
         - PolicyName: AccessRolePolicy
           PolicyDocument:
