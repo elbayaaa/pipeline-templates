@@ -1,9 +1,106 @@
 {
   "questions": [
       {
-          "key": "custom sam_template",
-          "question": "DO you Have Custom SAM template",
-          "default": "custom-template.yaml"
+          "key": "sam_template",
+          "question": "SAM template",
+          "default": "template.yaml"
+      },
+      {
+          "key": "main_git_branch",
+          "question": "git branch to trigger the pipeline",
+          "isRequired": true
+      },
+      {
+          "key": "runtime",
+          "question": "Lambda functions runtime",
+          "isRequired": true,
+          "options": [
+            "python3.8", "python3.7", "python3.6", "python2.7", "ruby2.5", "ruby2.7", "nodejs14.x", "nodejs12.x",
+            "nodejs10.x", "java8", "java11", "java8.al2"
+          ]
+      },
+      {
+          "key": "testing_intro",
+          "question": "Let us configure your testing stage first.",
+          "kind": "info"
+      },
+      {
+          "key": "deployer_arn",
+          "question": "Pipeline user ARN?",
+          "isRequired": true,
+          "defaultNextQuestion": "deployer_aws_access_key_id_variable_name"
+      },
+      {
+          "key": "deployer_aws_access_key_id_variable_name",
+          "question": "Gitlab variable name for AWS_ACCESS_KEY_ID",
+          "isRequired": true
+      },
+      {
+          "key": "deployer_aws_secret_access_key_variable_name",
+          "question": "Gitlab variable name for AWS_SECRET_ACCESS_KEY",
+          "isRequired": true
+      },
+      {
+          "key": "testing_region",
+          "question": "Enter region for 'Testing' stage",
+          "default": "us-east-1"
+      },
+      {
+          "key": "testing_stack_name",
+          "question": "Enter stack name for 'Testing' stage",
+          "default": "testing-stack"
+      },
+      {
+          "key": "testing_artifacts_bucket",
+          "question": "S3 Bucket",
+          "isRequired": true
+      },
+      {
+          "key": "testing_deployer_role",
+          "question": "Pipeline execution Role",
+          "isRequired": true
+      },
+      {
+          "key": "testing_cfn_deployment_role",
+          "question": "Cloudformation execution role",
+          "isRequired": true
+      },
+      {
+          "key": "testing_ecr_repo",
+          "question": "ECR repo [leave blank if your SAM template doesn't include lambda functions with image package-type]"
+      },
+      {
+          "key": "prod_intro",
+          "question": "NICE!! Let us configure your prod stage as well.",
+          "kind": "info"
+      },
+      {
+          "key": "prod_region",
+          "question": "Enter region for 'Prod' stage",
+          "default": "us-east-1"
+      },
+      {
+          "key": "prod_stack_name",
+          "question": "Enter stack name for 'Prod' stage",
+          "default": "prod-stack"
+      },
+      {
+          "key": "prod_artifacts_bucket",
+          "question": "S3 Bucket",
+          "isRequired": true
+      },
+      {
+          "key": "prod_deployer_role",
+          "question": "Pipeline execution role"
+      },
+      {
+          "key": "prod_cfn_deployment_role",
+          "question": "Cloudformation execution role",
+          "isRequired": true
+      },
+      {
+          "key": "prod_ecr_repo",
+          "question": "ECR repo [leave blank if your SAM template doesn't include lambda functions with image package-type]"
       }
   ]
 }

@@ -2,13 +2,21 @@ variables:
   sam_template: {{cookiecutter.sam_template}}
   aws_access_key_id_: ${{cookiecutter.deployer_aws_access_key_id_variable_name}}
   aws_secret_access_key_: ${{cookiecutter.deployer_aws_secret_access_key_variable_name}}
+  deployer_arn: {{cookiecutter.deployer_arn}},
   testing_stack_name: {{cookiecutter.testing_stack_name}}
+  testing_region: {{cookiecutter.testing_region}},
+  testing_deployer_role: {{cookiecutter.testing_deployer_role}},
+  testing_cfn_deployment_role: {{cookiecutter.testing_cfn_deployment_role}},
+  testing_artifacts_bucket: {{cookiecutter.testing_artifacts_bucket}},
+  testing_ecr_repo: {{cookiecutter.testing_ecr_repo}},
   prod_stack_name: {{cookiecutter.prod_stack_name}}
+  prod_region: {{cookiecutter.prod_region}}
+  prod_deployer_role: {{cookiecutter.prod_deployer_role}},
+  prod_cfn_deployment_role: {{cookiecutter.prod_cfn_deployment_role}},
+  prod_artifacts_bucket: {{cookiecutter.prod_artifacts_bucket}},
+  prod_ecr_repo: {{cookiecutter.prod_ecr_repo}},
 
-image: public.ecr.aws/sam/build-python3.8
-
-before_script:
-  - . {{cookiecutter.cicd_folder_name}}/init-env-vars.sh
+image: public.ecr.aws/sam/build-{{cookiecutter.runtime}}
 
 stages:
   - test
@@ -42,6 +50,7 @@ build-and-deploy-feature:
                --capabilities CAPABILITY_IAM \
                --region ${testing_region} \
                --s3-bucket ${testing_artifacts_bucket} \
+               --image-repository ${testing_ecr_repo} \
                --no-fail-on-empty-changeset \
                --no-confirm-changeset \
                --role-arn ${testing_cfn_deployment_role}
@@ -58,6 +67,7 @@ build:
 
     sam package \
           --s3-bucket ${testing_artifacts_bucket} \
+          --image-repository ${testing_ecr_repo} \
           --region ${testing_region} \
           --output-template-file packaged-testing.yaml
 
@@ -67,6 +77,7 @@ build:
 
     sam package \
            --s3-bucket ${prod_artifacts_bucket} \
+           --image-repository ${prod_ecr_repo} \
            --region ${prod_region} \
            --output-template-file packaged-prod.yaml
   artifacts:
@@ -89,6 +100,7 @@ deploy-testing:
                --capabilities CAPABILITY_IAM \
                --region ${testing_region} \
                --s3-bucket ${testing_artifacts_bucket} \
+               --image-repository ${testing_ecr_repo} \
                --no-fail-on-empty-changeset \
                --no-confirm-changeset \
                --role-arn ${testing_cfn_deployment_role}
@@ -108,6 +120,7 @@ deploy-prod:
                --capabilities CAPABILITY_IAM \
                --region ${prod_region} \
                --s3-bucket ${prod_artifacts_bucket} \
+               --image-repository ${prod_ecr_repo} \
                --no-fail-on-empty-changeset \
                --no-confirm-changeset \
                --role-arn ${prod_cfn_deployment_role}
