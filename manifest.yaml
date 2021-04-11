@@ -4,15 +4,15 @@ templates:
   - name: gitlab-two-stages-pipeline
     provider: Gitlab
     location: templates/cookiecutter-gitlab-two-stages-pipeline
-    interactive_flows:
-      - path: lib/two_stages_pipeline/questions.json
-        context:
-          provider: Gitlab
-        context_callback:
-          module_name: lib.two_stages_pipeline.questions_context_supplier
-          method_name: get_context
-          args:
-            provider: Gitlab
+#    interactive_flows:
+#      - path: lib/two_stages_pipeline/questions.json
+#        context:
+#          provider: Gitlab
+#        context_callback:
+#          module_name: lib.two_stages_pipeline.questions_context_supplier
+#          method_name: get_context
+#          args:
+#            provider: Gitlab
 #    preprocessors:
 #      - module_name: lib.two_stages_pipeline.preprocessor
 #        class_name: Preprocessor
@@ -27,54 +27,54 @@ templates:
 
 
 
-interactive_flows:
-  - path: /path/to/questions.json
-    context:
-      key1: value1
-      key2:
-        key2.1: value2.1
-  - path: /path/to/questions2.json
-preprocessors:
-  - module_name: my_pckage.preprocessors
-    class_name: Preprocessor1
-    args:
-      key1: value1
-      key2:
-        key2.1: value2.1
-  - module_name: my_pckage.preprocessors
-      class_name: Preprocessor2
-postprocessors:
-  - module_name: my_pckage.postprocessors
-      class_name: Preprocessor1
-      args:
-        key1: value1
-        key2:
-          key2.1: value2.1
-  - module_name: my_pckage.postprocessors
-      class_name: Preprocessor2
-plugins:
-  - name: PLUGIN1
-    args:
-      key1: value1
-      key2:
-        key2.1: value2.1
-  - name: PLUGIN2
-envvar-file: /path/to/env-vars.json
-provisioning:
-  stages:
-    - name: testing
-      templates:
-        - template: path/to/cfn/stage-resources.yaml
-          region: us-west-2
-          stack_name: aws-sam-cli-managed-testing-stack-pipeline-resources
-          parameter_overrides:
-            Param1: Value1
-            DeployerRoleArn: $testing_deployer_role
-          output_envvar_mapping:
-            DeployerRole: testing_deployer_role
-        - template: path/to/cfn/ops-resources.yaml
-          region: us-west-2
-          stack_name: aws-sam-cli-managed-testing-stack-ops-resources
-    - name: prod
-      templates:
-        ...
+#interactive_flows:
+#  - path: /path/to/questions.json
+#    context:
+#      key1: value1
+#      key2:
+#        key2.1: value2.1
+#  - path: /path/to/questions2.json
+#preprocessors:
+#  - module_name: my_pckage.preprocessors
+#    class_name: Preprocessor1
+#    args:
+#      key1: value1
+#      key2:
+#        key2.1: value2.1
+#  - module_name: my_pckage.preprocessors
+#      class_name: Preprocessor2
+#postprocessors:
+#  - module_name: my_pckage.postprocessors
+#      class_name: Preprocessor1
+#      args:
+#        key1: value1
+#        key2:
+#          key2.1: value2.1
+#  - module_name: my_pckage.postprocessors
+#      class_name: Preprocessor2
+#plugins:
+#  - name: PLUGIN1
+#    args:
+#      key1: value1
+#      key2:
+#        key2.1: value2.1
+#  - name: PLUGIN2
+#envvar-file: /path/to/env-vars.json
+#provisioning:
+#  stages:
+#    - name: testing
+#      templates:
+#        - template: path/to/cfn/stage-resources.yaml
+#          region: us-west-2
+#          stack_name: aws-sam-cli-managed-testing-stack-pipeline-resources
+#          parameter_overrides:
+#            Param1: Value1
+#            DeployerRoleArn: $testing_deployer_role
+#          output_envvar_mapping:
+#            DeployerRole: testing_deployer_role
+#        - template: path/to/cfn/ops-resources.yaml
+#          region: us-west-2
+#          stack_name: aws-sam-cli-managed-testing-stack-ops-resources
+#    - name: prod
+#      templates:
+#        ...
