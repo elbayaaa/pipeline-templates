@@ -28,7 +28,7 @@
           "key": "deployer_arn",
           "question": "Pipeline user ARN?",
           "isRequired": true,
-          "defaultNextQuestion": "deployer_aws_access_key_id_variable_name"
+          "defaultFromBootstrapReference": "default.pipeline_bootstrap.parameters.pipeline_user"
       },
       {
           "key": "deployer_aws_access_key_id_variable_name",
@@ -51,11 +51,6 @@
           "default": "testing-stack"
       },
       {
-          "key": "testing_artifacts_bucket",
-          "question": "S3 Bucket",
-          "isRequired": true
-      },
-      {
           "key": "testing_deployer_role",
           "question": "Pipeline execution Role",
           "isRequired": true
@@ -66,8 +61,13 @@
           "isRequired": true
       },
       {
+          "key": "testing_artifacts_bucket",
+          "question": "Artifacts bucket name",
+          "isRequired": true
+      },
+      {
           "key": "testing_ecr_repo",
-          "question": "ECR repo [leave blank if your SAM template doesn't include lambda functions with image package-type]"
+          "question": "ECR repo URI [leave blank if your SAM template doesn't include lambda functions with image package-type]"
       },
       {
           "key": "prod_intro",
@@ -85,11 +85,6 @@
           "default": "prod-stack"
       },
       {
-          "key": "prod_artifacts_bucket",
-          "question": "S3 Bucket",
-          "isRequired": true
-      },
-      {
           "key": "prod_deployer_role",
           "question": "Pipeline execution role"
       },
@@ -99,8 +94,13 @@
           "isRequired": true
       },
       {
+          "key": "prod_artifacts_bucket",
+          "question": "Artifacts bucket name",
+          "isRequired": true
+      },
+      {
           "key": "prod_ecr_repo",
-          "question": "ECR repo [leave blank if your SAM template doesn't include lambda functions with image package-type]"
+          "question": "ECR repo URI [leave blank if your SAM template doesn't include lambda functions with image package-type]"
       }
   ]
 }

@@ -2,21 +2,43 @@ variables:
   sam_template: {{cookiecutter.sam_template}}
   aws_access_key_id_: ${{cookiecutter.deployer_aws_access_key_id_variable_name}}
   aws_secret_access_key_: ${{cookiecutter.deployer_aws_secret_access_key_variable_name}}
-  deployer_arn: {{cookiecutter.deployer_arn}},
+  deployer_arn: {{cookiecutter.deployer_arn}}
   testing_stack_name: {{cookiecutter.testing_stack_name}}
   testing_region: {{cookiecutter.testing_region}},
-  testing_deployer_role: {{cookiecutter.testing_deployer_role}},
-  testing_cfn_deployment_role: {{cookiecutter.testing_cfn_deployment_role}},
-  testing_artifacts_bucket: {{cookiecutter.testing_artifacts_bucket}},
-  testing_ecr_repo: {{cookiecutter.testing_ecr_repo}},
+  testing_deployer_role: {{cookiecutter.testing_deployer_role}}
+  testing_cfn_deployment_role: {{cookiecutter.testing_cfn_deployment_role}}
+  testing_artifacts_bucket: {{cookiecutter.testing_artifacts_bucket}}
+  testing_ecr_repo: {{cookiecutter.testing_ecr_repo}}
   prod_stack_name: {{cookiecutter.prod_stack_name}}
   prod_region: {{cookiecutter.prod_region}}
   prod_deployer_role: {{cookiecutter.prod_deployer_role}},
-  prod_cfn_deployment_role: {{cookiecutter.prod_cfn_deployment_role}},
-  prod_artifacts_bucket: {{cookiecutter.prod_artifacts_bucket}},
-  prod_ecr_repo: {{cookiecutter.prod_ecr_repo}},
+  prod_cfn_deployment_role: {{cookiecutter.prod_cfn_deployment_role}}
+  prod_artifacts_bucket: {{cookiecutter.prod_artifacts_bucket}}
+  prod_ecr_repo: {{cookiecutter.prod_ecr_repo}}
+  DOCKER_DRIVER: overlay2
+  # Create the certificates inside this directory for both the server
+  # and client. The certificates used by the client will be created in
+  # /certs/client so we only need to share this directory with the
+  # volume mount in `config.toml`.
+  DOCKER_TLS_CERTDIR: "/certs"
 
-image: public.ecr.aws/sam/build-{{cookiecutter.runtime}}
+  PIPELINE_USER_ACCESS_KEY_ID: ${{ "{{" }} secrets.{{cookiecutter.deployer_aws_access_key_id_variable_name}} {{ "}}" }}
+
+image: docker:19.03.15
+
+services:
+    - docker:19.03.15-dind
+
+before_script:
+  - apk update
+  - apk upgrade
+  - apk add --update --no-cache python3
+  - apk add --update py-pip
+  - apk add python3-dev
+  - apk add build-base
+  - pip install jq
+  - pip install awscli
+  - pip install aws-sam-cli
 
 stages:
   - test
@@ -45,7 +67,7 @@ build-and-deploy-feature:
     . {{cookiecutter.cicd_folder_name}}/assume-role.sh ${testing_region} \
                                                        ${testing_deployer_role} \
                                                        feature-deployment
-    sam build --template ${sam_template}
+    sam build --template ${sam_template} --use-container
     sam deploy --stack-name features-${CI_COMMIT_REF_NAME}-cfn-stack \
                --capabilities CAPABILITY_IAM \
                --region ${testing_region} \
@@ -59,7 +81,7 @@ build:
   only:
     - {{cookiecutter.main_git_branch}}
   script: |
-    sam build --template ${sam_template}
+    sam build --template ${sam_template} --use-container
 
     . {{cookiecutter.cicd_folder_name}}/assume-role.sh ${testing_region} \
                                                        ${testing_deployer_role} \
