@@ -73,7 +73,9 @@ build-and-deploy-feature:
                --capabilities CAPABILITY_IAM \
                --region ${testing_region} \
                --s3-bucket ${testing_artifacts_bucket} \
+               {%- if cookiecutter.testing_ecr_repo %}
                --image-repository ${testing_ecr_repo} \
+               {% endif -%}
                --no-fail-on-empty-changeset \
                --no-confirm-changeset \
                --role-arn ${testing_cfn_deployment_role}
@@ -90,7 +92,9 @@ build:
 
     sam package \
           --s3-bucket ${testing_artifacts_bucket} \
+          {%- if cookiecutter.testing_ecr_repo %}
           --image-repository ${testing_ecr_repo} \
+          {% endif -%}
           --region ${testing_region} \
           --output-template-file packaged-testing.yaml
 
@@ -100,7 +104,9 @@ build:
 
     sam package \
            --s3-bucket ${prod_artifacts_bucket} \
+           {%- if cookiecutter.prod_ecr_repo %}
            --image-repository ${prod_ecr_repo} \
+           {% endif -%}
            --region ${prod_region} \
            --output-template-file packaged-prod.yaml
   artifacts:
@@ -123,7 +129,9 @@ deploy-testing:
                --capabilities CAPABILITY_IAM \
                --region ${testing_region} \
                --s3-bucket ${testing_artifacts_bucket} \
+               {%- if cookiecutter.testing_ecr_repo %}
                --image-repository ${testing_ecr_repo} \
+               {% endif -%}
                --no-fail-on-empty-changeset \
                --no-confirm-changeset \
                --role-arn ${testing_cfn_deployment_role}
@@ -143,7 +151,9 @@ deploy-prod:
                --capabilities CAPABILITY_IAM \
                --region ${prod_region} \
                --s3-bucket ${prod_artifacts_bucket} \
+               {%- if cookiecutter.prod_ecr_repo %}
                --image-repository ${prod_ecr_repo} \
+               {% endif -%}
                --no-fail-on-empty-changeset \
                --no-confirm-changeset \
                --role-arn ${prod_cfn_deployment_role}
