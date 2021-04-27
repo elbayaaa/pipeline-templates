@@ -9,7 +9,7 @@ variables:
   testing_artifacts_bucket: {{cookiecutter.testing_artifacts_bucket}}
   {%- if cookiecutter.testing_ecr_repo %}
   testing_ecr_repo: {{cookiecutter.testing_ecr_repo}}
-  {% endif -%}
+  {%- endif %}
   prod_stack_name: {{cookiecutter.prod_stack_name}}
   prod_region: {{cookiecutter.prod_region}}
   prod_deployer_role: {{cookiecutter.prod_pipeline_execution_role}}
@@ -17,7 +17,7 @@ variables:
   prod_artifacts_bucket: {{cookiecutter.prod_artifacts_bucket}}
   {%- if cookiecutter.prod_ecr_repo %}
   prod_ecr_repo: {{cookiecutter.prod_ecr_repo}}
-  {% endif -%}
+  {%- endif %}
   DOCKER_DRIVER: overlay2
   # Create the certificates inside this directory for both the server
   # and client. The certificates used by the client will be created in
@@ -75,7 +75,7 @@ build-and-deploy-feature:
                --s3-bucket ${testing_artifacts_bucket} \
                {%- if cookiecutter.testing_ecr_repo %}
                --image-repository ${testing_ecr_repo} \
-               {% endif -%}
+               {%- endif %}
                --no-fail-on-empty-changeset \
                --no-confirm-changeset \
                --role-arn ${testing_cfn_deployment_role}
@@ -94,7 +94,7 @@ build:
           --s3-bucket ${testing_artifacts_bucket} \
           {%- if cookiecutter.testing_ecr_repo %}
           --image-repository ${testing_ecr_repo} \
-          {% endif -%}
+          {%- endif %}
           --region ${testing_region} \
           --output-template-file packaged-testing.yaml
 
@@ -106,7 +106,7 @@ build:
            --s3-bucket ${prod_artifacts_bucket} \
            {%- if cookiecutter.prod_ecr_repo %}
            --image-repository ${prod_ecr_repo} \
-           {% endif -%}
+           {%- endif %}
            --region ${prod_region} \
            --output-template-file packaged-prod.yaml
   artifacts:
@@ -131,7 +131,7 @@ deploy-testing:
                --s3-bucket ${testing_artifacts_bucket} \
                {%- if cookiecutter.testing_ecr_repo %}
                --image-repository ${testing_ecr_repo} \
-               {% endif -%}
+               {%- endif %}
                --no-fail-on-empty-changeset \
                --no-confirm-changeset \
                --role-arn ${testing_cfn_deployment_role}
@@ -153,7 +153,7 @@ deploy-prod:
                --s3-bucket ${prod_artifacts_bucket} \
                {%- if cookiecutter.prod_ecr_repo %}
                --image-repository ${prod_ecr_repo} \
-               {% endif -%}
+               {%- endif %}
                --no-fail-on-empty-changeset \
                --no-confirm-changeset \
                --role-arn ${prod_cfn_deployment_role}
