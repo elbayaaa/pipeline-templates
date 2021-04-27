@@ -73,7 +73,14 @@
   }, {
     "key": "testing_region",
     "question": "What is the testing AWS region?",
-    "default": "us-east-2"
+    "default": "us-east-2",
+    "default_from_toml": {
+      "toml_file": ".aws-sam/pipeline/pipelineconfig.toml",
+      "env": { "valueof": "testing_stage_name"},
+      "cmd_names": "pipeline_bootstrap",
+      "section": "parameters",
+      "key": "region"
+    }
   }, {
     "key": "prod_stage_name",
     "question": "What is the production stage name?",
@@ -128,6 +135,13 @@
   }, {
     "key": "prod_region",
     "question": "What is the production AWS region?",
-    "default": "us-east-2"
+    "default": "us-east-2",
+    "default_from_toml": {
+      "toml_file": ".aws-sam/pipeline/pipelineconfig.toml",
+      "env": { "valueof": "prod_stage_name"},
+      "cmd_names": "pipeline_bootstrap",
+      "section": "parameters",
+      "key": "region"
+    }
   }]
 }
