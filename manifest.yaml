@@ -3,7 +3,13 @@ providers:
   - Gitlab
   - Github Actions
 templates:
+  - name: gitlab-one-stage-pipeline
+    provider: Gitlab
+    location: templates/cookiecutter-gitlab-two-stages-pipeline
   - name: gitlab-two-stages-pipeline
+    provider: Gitlab
+    location: templates/cookiecutter-gitlab-two-stages-pipeline
+  - name: gitlab-multiple-stages-pipeline
     provider: Gitlab
     location: templates/cookiecutter-gitlab-two-stages-pipeline
 #    interactive_flows:

@@ -1,8 +1,7 @@
 variables:
   sam_template: {{cookiecutter.sam_template}}
-  aws_access_key_id_: ${{cookiecutter.deployer_aws_access_key_id_variable_name}}
-  aws_secret_access_key_: ${{cookiecutter.deployer_aws_secret_access_key_variable_name}}
-  deployer_arn: {{cookiecutter.deployer_arn}}
+  aws_access_key_id_: ${{cookiecutter.aws_access_key_id_variable_name}}
+  aws_secret_access_key_: ${{cookiecutter.aws_secret_access_key_variable_name}}
   testing_stack_name: {{cookiecutter.testing_stack_name}}
   testing_region: {{cookiecutter.testing_region}}
   testing_deployer_role: {{cookiecutter.testing_pipeline_execution_role}}
@@ -21,8 +20,6 @@ variables:
   # /certs/client so we only need to share this directory with the
   # volume mount in `config.toml`.
   DOCKER_TLS_CERTDIR: "/certs"
-
-  PIPELINE_USER_ACCESS_KEY_ID: ${{ "{{" }} secrets.{{cookiecutter.deployer_aws_access_key_id_variable_name}} {{ "}}" }}
 
 image: docker:19.03.15
 
